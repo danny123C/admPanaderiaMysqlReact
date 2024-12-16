@@ -21,11 +21,11 @@ router.get("/listCuentas", async (req, res) => {
     p.FechaPedido, 
     p.IdPedido
 FROM 
-    Pedidos p
+    pedidos p
 JOIN 
-    Clientes c ON p.IdCliente = c.IdCliente
+    clientes c ON p.IdCliente = c.IdCliente
 LEFT JOIN 
-    DetallePedidos dp ON dp.IdPedido = p.IdPedido
+    detallepedidos dp ON dp.IdPedido = p.IdPedido
 GROUP BY 
     p.IdPedido, c.Nombre, c.IdCliente, p.Abono, p.Observaciones, p.Pagado, p.FechaPedido
 ORDER BY 
@@ -38,8 +38,8 @@ LIMIT ? OFFSET ?;
     // Consulta para calcular el total de registros
     const [totalResult] = await pool.query(
       `SELECT COUNT(*) AS Total
-      FROM Pedidos p
-      JOIN Clientes c ON p.IdCliente = c.IdCliente;`
+      FROM dedidos p
+      JOIN clientes c ON p.IdCliente = c.IdCliente;`
     );
 
     const total = totalResult[0].Total;
@@ -66,7 +66,7 @@ router.put("/actualizarCuenta/:idPedido", async (req, res) => {
   try {
     // Verifica si el pedido existe
     const [checkPedido] = await pool.query(
-      `SELECT IdPedido FROM Pedidos WHERE IdPedido = ?`,
+      `SELECT IdPedido FROM pedidos WHERE IdPedido = ?`,
       [idPedido]
     );
 
@@ -76,7 +76,7 @@ router.put("/actualizarCuenta/:idPedido", async (req, res) => {
 
     // Realiza la actualización en la base de datos
     await pool.query(
-      `UPDATE Pedidos
+      `UPDATE pedidos
       SET Abono = ?, Observaciones = ?, Pagado = ?
       WHERE IdPedido = ?`,
       [Abono, Observaciones, Pagado, idPedido]

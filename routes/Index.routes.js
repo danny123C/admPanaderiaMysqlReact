@@ -25,13 +25,13 @@ router.get("/listaClientesVista", async (req, res) => {
           GROUP_CONCAT(tp.Nombre SEPARATOR ', ') AS NombresPan,
           SUM(dp.Cantidad) AS TotalCantidad
         FROM 
-          Pedidos pd
+          pedidos pd
         JOIN 
-          Clientes c ON pd.IdCliente = c.IdCliente
+          clientes c ON pd.IdCliente = c.IdCliente
         LEFT JOIN 
-          DetallePedidos dp ON pd.IdPedido = dp.IdPedido
+          detallepedidos dp ON pd.IdPedido = dp.IdPedido
         LEFT JOIN 
-          TiposDePanes tp ON dp.IdTipoPan = tp.IdTipoPan
+          tiposDePanes tp ON dp.IdTipoPan = tp.IdTipoPan
         GROUP BY 
           c.Nombre, pd.IdPedido, pd.FechaPedido, pd.TotalPedido, pd.Abono, pd.Observaciones, pd.Pagado
         ORDER BY 
@@ -45,10 +45,10 @@ router.get("/listaClientesVista", async (req, res) => {
       const [totalRows] = await connection.query(
         `
         SELECT COUNT(DISTINCT pd.IdPedido) AS Total
-        FROM Pedidos pd
-        JOIN Clientes c ON pd.IdCliente = c.IdCliente
-        LEFT JOIN DetallePedidos dp ON pd.IdPedido = dp.IdPedido
-        LEFT JOIN TiposDePanes tp ON dp.IdTipoPan = tp.IdTipoPan;
+        FROM pedidos pd
+        JOIN clientes c ON pd.IdCliente = c.IdCliente
+        LEFT JOIN detallepedidos dp ON pd.IdPedido = dp.IdPedido
+        LEFT JOIN tiposdepanes tp ON dp.IdTipoPan = tp.IdTipoPan;
         `
       );
 
@@ -88,9 +88,9 @@ router.get("/listaProduccion", async (req, res) => {
           p.PanSobrante,
           p.IdProduccion
         FROM 
-          ProduccionDiaria p
+          producciondiaria p
         JOIN 
-          TiposDePanes tp ON p.IdTipoPan = tp.IdTipoPan
+          tiposdepanes tp ON p.IdTipoPan = tp.IdTipoPan
         ORDER BY 
           p.Fecha ASC
         LIMIT ? OFFSET ?;
@@ -102,8 +102,8 @@ router.get("/listaProduccion", async (req, res) => {
       const [totalRows] = await connection.query(
         `
         SELECT COUNT(*) AS Total
-        FROM ProduccionDiaria p
-        JOIN TiposDePanes tp ON p.IdTipoPan = tp.IdTipoPan;
+        FROM producciondiaria p
+        JOIN tiposdepanes tp ON p.IdTipoPan = tp.IdTipoPan;
         `
       );
 

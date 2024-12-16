@@ -13,9 +13,9 @@ router.get("/listaPedidosPorMes", async (req, res) => {
     COUNT(p.IdPedido) AS TotalPedidos,
     SUM(dp.Subtotal) AS MontoTotal
 FROM 
-    Pedidos p
+    pedidos p
 JOIN 
-    DetallePedidos dp ON p.IdPedido = dp.IdPedido
+    detallepedidos dp ON p.IdPedido = dp.IdPedido
 WHERE 
     p.FechaPedido IS NOT NULL
 GROUP BY 
@@ -43,9 +43,9 @@ router.get("/listaProduccionPorMes", async (req, res) => {
           SUM(p.PanFaltante) AS PanFaltante,
           SUM(p.PanSobrante) AS PanSobrante
       FROM 
-          ProduccionDiaria p
+          producciondiaria p
       JOIN 
-          TiposDePanes tp ON p.IdTipoPan = tp.IdTipoPan
+          tiposdepanes tp ON p.IdTipoPan = tp.IdTipoPan
       WHERE 
           p.Fecha IS NOT NULL
       GROUP BY 

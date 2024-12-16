@@ -28,7 +28,7 @@ router.post("/addTipoPan", async (req, res) => {
   try {
     // Ejecutar la consulta para insertar la nueva producción diaria
     const [result] = await pool.execute(
-      `INSERT INTO TiposDePanes (Nombre, Descripcion) 
+      `INSERT INTO tiposdepanes (Nombre, Descripcion) 
         VALUES (?, ?)`,
       [Nombre, Descripcion]
     );
@@ -46,7 +46,7 @@ router.delete("/deleteTipoPan/:id", async (req, res) => {
   try {
     // Ejecutar la consulta de eliminación
     const [result] = await pool.execute(
-      "DELETE FROM TiposDePanes WHERE IdTipoPan = ?",
+      "DELETE FROM tiposdepanes WHERE IdTipoPan = ?",
       [id]
     );
 
@@ -68,7 +68,7 @@ router.put("/editTipoPan/:id", async (req, res) => {
   try {
     // Ejecutar la consulta de actualización
     const [result] = await pool.execute(
-      "UPDATE TiposDePanes SET Nombre = ?, Descripcion = ? WHERE IdTipoPan = ?",
+      "UPDATE tiposdepanes SET Nombre = ?, Descripcion = ? WHERE IdTipoPan = ?",
       [Nombre, Descripcion, id]
     );
 

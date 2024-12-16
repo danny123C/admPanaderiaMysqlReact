@@ -16,11 +16,11 @@ router.get("/listPedidos", async (req, res) => {
     ct.*, 
     IFNULL(SUM(dp.Subtotal), 0) AS TotalPedido 
 FROM 
-    Pedidos ct 
+    pedidos ct 
 JOIN 
-    Clientes c ON ct.IdCliente = c.IdCliente
+    clientes c ON ct.IdCliente = c.IdCliente
 LEFT JOIN 
-    DetallePedidos dp ON dp.IdPedido = ct.IdPedido
+    detallepedidos dp ON dp.IdPedido = ct.IdPedido
 GROUP BY 
     ct.IdPedido, c.Nombre
 ORDER BY 
@@ -33,8 +33,8 @@ LIMIT ${limit} OFFSET ${offset};
     // Consulta para obtener el total de registros sin paginación
     const [totalResult] = await pool.execute(`
       SELECT COUNT(*) AS Total
-      FROM Pedidos ct
-      JOIN Clientes c ON ct.IdCliente = c.IdCliente;
+      FROM pedidos ct
+      JOIN clientes c ON ct.IdCliente = c.IdCliente;
     `);
 
     // Total de registros
@@ -76,7 +76,7 @@ router.put("/editPedido/:id", async (req, res) => {
   try {
     // Realizar la consulta para actualizar el pedido
     const [result] = await pool.execute(
-      "UPDATE Pedidos SET IdCliente = ?, FechaPedido = ? WHERE IdPedido = ?",
+      "UPDATE pedidos SET IdCliente = ?, FechaPedido = ? WHERE IdPedido = ?",
       [IdCliente, FechaPedido, id]
     );
 
@@ -102,7 +102,7 @@ router.delete("/deletePedido/:id", async (req, res) => {
   try {
     // Realizar la consulta para eliminar el pedido
     const [result] = await pool.execute(
-      "DELETE FROM Pedidos WHERE IdPedido = ?",
+      "DELETE FROM pedidos WHERE IdPedido = ?",
       [id]
     );
 
@@ -129,7 +129,7 @@ router.post("/addPedido", async (req, res) => {
   try {
     // Realizar la consulta para insertar un nuevo pedido
     const [result] = await pool.execute(
-      "INSERT INTO Pedidos (IdCliente, FechaPedido) VALUES (?, ?)",
+      "INSERT INTO pedidos (IdCliente, FechaPedido) VALUES (?, ?)",
       [IdCliente, FechaPedido]
     );
 

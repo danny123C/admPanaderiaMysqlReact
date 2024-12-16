@@ -72,7 +72,7 @@ router.post("/crearUsuario", async (req, res) => {
   try {
     // Verificar si el usuario ya existe
     const [usuarioExistente] = await pool.execute(
-      "SELECT * FROM Usuarios WHERE Usuario = ?",
+      "SELECT * FROM usuarios WHERE Usuario = ?",
       [Usuario]
     );
 
@@ -85,7 +85,7 @@ router.post("/crearUsuario", async (req, res) => {
 
     // Insertar el nuevo usuario en la base de datos
     await pool.execute(
-      `INSERT INTO Usuarios (Usuario, Contraseña, FechaCreacion, EsAdministrador, Aprobado) 
+      `INSERT INTO usuarios (Usuario, Contraseña, FechaCreacion, EsAdministrador, Aprobado) 
       VALUES (?, ?, NOW(), 0, 0)`,
       [Usuario, hashedPassword]
     );
@@ -99,7 +99,7 @@ router.post("/crearUsuario", async (req, res) => {
 // Endpoint para obtener la lista de usuarios
 router.get("/listUsuarios", async (req, res) => {
   try {
-    const [rows] = await pool.execute("SELECT * FROM Usuarios"); // Usando `mysql2` con Promesas
+    const [rows] = await pool.execute("SELECT * FROM usuarios"); // Usando `mysql2` con Promesas
     res.json(rows); // Devuelve los resultados
   } catch (err) {
     res.status(500).send("Error al obtener la lista de Usuarios");
@@ -113,7 +113,7 @@ router.put("/editUsuarios/:id", async (req, res) => {
   try {
     // Consulta SQL para actualizar el usuario
     const [result] = await pool.execute(
-      "UPDATE Usuarios SET Usuario = ?, EsAdministrador = ?, Aprobado = ? WHERE Id = ?",
+      "UPDATE usuarios SET Usuario = ?, EsAdministrador = ?, Aprobado = ? WHERE Id = ?",
       [Usuario, EsAdministrador, Aprobado, id] // Columna y valores en orden
     );
 
@@ -134,7 +134,7 @@ router.delete("/deleteUsuarios/:id", async (req, res) => {
 
   try {
     // Consulta SQL para eliminar al usuario por su ID
-    const [result] = await pool.execute("DELETE FROM Usuarios WHERE Id = ?", [
+    const [result] = await pool.execute("DELETE FROM usuarios WHERE Id = ?", [
       id,
     ]);
 

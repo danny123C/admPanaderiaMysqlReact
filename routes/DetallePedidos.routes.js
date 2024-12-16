@@ -20,9 +20,9 @@ router.get("/detallePedido/:idPedido", async (req, res) => {
         dp.PrecioUnitario,
         dp.Subtotal
       FROM 
-        DetallePedidos dp
+        detallepedidos dp
       JOIN 
-        TiposDePanes tp ON dp.IdTipoPan = tp.IdTipoPan
+        tiposdepanes tp ON dp.IdTipoPan = tp.IdTipoPan
       WHERE 
         dp.IdPedido = ?
     `,
@@ -55,7 +55,7 @@ router.post("/addDetallePedido", async (req, res) => {
     // Ejecutar la consulta para insertar el nuevo detalle de pedido
     const [result] = await connection.query(
       `
-      INSERT INTO DetallePedidos (IdPedido, IdTipoPan, Cantidad, PrecioUnitario)
+      INSERT INTO detallepedidos (IdPedido, IdTipoPan, Cantidad, PrecioUnitario)
       VALUES (?, ?, ?, ?)
     `,
       [IdPedido, IdTipoPan, Cantidad, PrecioUnitario]
@@ -87,7 +87,7 @@ router.delete("/deleteDetallePedido/:id", async (req, res) => {
 
     // Realizar la consulta para eliminar el DetallePedido
     const [result] = await connection.query(
-      "DELETE FROM DetallePedidos WHERE IdDetalle = ?",
+      "DELETE FROM detallepedidos WHERE IdDetalle = ?",
       [id]
     );
 
@@ -124,7 +124,7 @@ router.put("/editDetallePedido/:id", async (req, res) => {
       .input("IdTipoPan", IdTipoPan)
       .input("Cantidad", Cantidad)
       .input("PrecioUnitario", PrecioUnitario).query(`
-        UPDATE DetallePedidos 
+        UPDATE detallepedidos 
         SET IdTipoPan=@IdTipoPan, Cantidad=@Cantidad, PrecioUnitario=@PrecioUnitario
         WHERE IdDetalle = @IdDetalle
       `);

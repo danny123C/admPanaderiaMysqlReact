@@ -25,9 +25,9 @@ router.get("/listMateriales", async (req, res) => {
           m.Extras,
           m.Observaciones
         FROM 
-          Materiales m
+          materiales m
         JOIN 
-          TiposDePanes tp 
+          tiposdepanes tp 
         ON 
           m.IdTipoPan = tp.IdTipoPan
         ORDER BY 
@@ -37,7 +37,7 @@ router.get("/listMateriales", async (req, res) => {
     );
 
     const [countResult] = await pool.query(
-      `SELECT COUNT(*) AS total FROM Materiales;`
+      `SELECT COUNT(*) AS total FROM materiales;`
     );
 
     const total = countResult[0].total;
@@ -88,7 +88,7 @@ router.post("/addMateriales", async (req, res) => {
     // Consulta para insertar en la base de datos
     await pool.query(
       `
-        INSERT INTO Materiales (
+        INSERT INTO materiales (
           IdTipoPan, Fecha, Harina, Manteca, Mantequilla, Azucar, Sal, Levadura, Agua, PanMolido, Extras, Observaciones
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, COALESCE(?, NULL), COALESCE(?, 0), ?, ?)
       `,
@@ -157,7 +157,7 @@ router.put("/editMateriales/:id", async (req, res) => {
       return res.status(400).json({ error: "Faltan datos obligatorios" });
     }
     const query = `
-    UPDATE Materiales
+    UPDATE materiales
     SET 
       IdTipoPan = ?, 
       Fecha = ?,
@@ -205,7 +205,7 @@ router.delete("/deleteMateriales/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [result] = await pool.query("DELETE FROM Materiales WHERE Id = ?", [
+    const [result] = await pool.query("DELETE FROM materiales WHERE Id = ?", [
       id,
     ]);
 

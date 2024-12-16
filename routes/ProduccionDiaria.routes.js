@@ -20,9 +20,9 @@ router.get("/listProduccionDiaria", async (req, res) => {
               pd.PanSobrante,
               pd.Observaciones
            FROM 
-              ProduccionDiaria pd
+              producciondiaria pd
            JOIN 
-              TiposDePanes tp 
+              tiposdepanes tp 
            ON 
               pd.IdTipoPan = tp.IdTipoPan
            ORDER BY 
@@ -33,7 +33,7 @@ router.get("/listProduccionDiaria", async (req, res) => {
 
     // Ejecutar una consulta adicional para obtener el total de registros
     const [countResult] = await pool.query(
-      `SELECT COUNT(*) AS total FROM ProduccionDiaria;`
+      `SELECT COUNT(*) AS total FROM producciondiaria;`
     );
 
     const total = countResult[0].total; // Extraer el total de registros
@@ -72,7 +72,7 @@ router.post("/addProduccionDiaria", async (req, res) => {
     // Consulta SQL
     await pool.query(
       `
-      INSERT INTO ProduccionDiaria (IdTipoPan, Cantidad, Fecha, PanFaltante, PanSobrante, Observaciones)
+      INSERT INTO producciondiaria (IdTipoPan, Cantidad, Fecha, PanFaltante, PanSobrante, Observaciones)
       VALUES (?, ?, ?, ?, ?, ?)
     `,
       [
@@ -97,7 +97,7 @@ router.delete("/deleteProduccionDiaria/:id", async (req, res) => {
 
   try {
     const [result] = await pool.execute(
-      "DELETE FROM ProduccionDiaria WHERE IdProduccion = ?",
+      "DELETE FROM producciondiaria WHERE IdProduccion = ?",
       [id]
     );
 
@@ -127,7 +127,7 @@ router.put("/editProduccionDiaria/:id", async (req, res) => {
   try {
     const [result] = await pool.execute(
       `
-      UPDATE ProduccionDiaria
+      UPDATE producciondiaria
       SET 
         Cantidad = ?, 
         Fecha = ?, 

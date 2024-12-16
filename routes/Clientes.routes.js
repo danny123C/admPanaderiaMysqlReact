@@ -5,7 +5,7 @@ const router = Router(); // Crea una nueva instancia de Router
 // Endpoint para obtener la lista de clientes
 router.get("/listClientes", async (req, res) => {
   try {
-    const [rows] = await pool.execute("SELECT * FROM Clientes"); // Usando `mysql2` con Promesas
+    const [rows] = await pool.execute("SELECT * FROM clientes"); // Usando `mysql2` con Promesas
     res.json(rows); // Devuelve los resultados
   } catch (err) {
     res.status(500).send("Error al obtener la lista de clientes");
@@ -22,7 +22,7 @@ router.post("/addClientes", async (req, res) => {
 
   try {
     const [result] = await pool.execute(
-      "INSERT INTO Clientes (Nombre, Telefono, Email) VALUES (?, ?, ?)",
+      "INSERT INTO clientes (Nombre, Telefono, Email) VALUES (?, ?, ?)",
       [Nombre, Telefono, Email] // Usando placeholders `?` para evitar inyecciones SQL
     );
     res.status(201).send("Cliente añadido con éxito");
@@ -37,7 +37,7 @@ router.delete("/deleteCliente/:id", async (req, res) => {
 
   try {
     const [result] = await pool.execute(
-      "DELETE FROM Clientes WHERE IdCliente = ?",
+      "DELETE FROM clientes WHERE IdCliente = ?",
       [id] // Usando placeholders `?`
     );
 
@@ -58,7 +58,7 @@ router.put("/editCliente/:id", async (req, res) => {
 
   try {
     const [result] = await pool.execute(
-      "UPDATE Clientes SET Nombre = ?, Telefono = ?, Email = ? WHERE IdCliente = ?",
+      "UPDATE clientes SET Nombre = ?, Telefono = ?, Email = ? WHERE IdCliente = ?",
       [Nombre, Telefono, Email, id] // Usando placeholders `?` y los valores correspondientes
     );
 
