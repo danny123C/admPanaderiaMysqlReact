@@ -5,7 +5,7 @@ const router = Router(); // Crea una nueva instancia de Router
 router.get("/listTiposPanes", async (req, res) => {
   try {
     // Ejecutar la consulta para obtener todos los tipos de panes
-    const [rows] = await pool.query("SELECT * FROM TiposDePanes");
+    const [rows] = await pool.query("SELECT * FROM tiposdepanes");
 
     // Enviar los resultados como JSON
     res.json(rows);
