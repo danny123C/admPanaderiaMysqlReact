@@ -42,12 +42,11 @@ router.get("/listaClientesVista", async (req, res) => {
 
       // Consulta para calcular el total de registros
       const [totalRows] = await connection.query(
-        `
-        SELECT COUNT(DISTINCT pd.IdPedido) AS Total
+        `SELECT COUNT(DISTINCT pd.IdPedido) AS Total
         FROM pedidos pd
         JOIN clientes c ON pd.IdCliente = c.IdCliente
         LEFT JOIN detallepedidos dp ON pd.IdPedido = dp.IdPedido
-        LEFT JOIN tiposDePanes tp ON dp.IdTipoPan = tp.IdTipoPan;
+        LEFT JOIN tiposdepanes tp ON dp.IdTipoPan = tp.IdTipoPan;
         `
       );
 

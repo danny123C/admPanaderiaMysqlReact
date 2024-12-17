@@ -38,7 +38,7 @@ LIMIT ? OFFSET ?;
     // Consulta para calcular el total de registros
     const [totalResult] = await pool.query(
       `SELECT COUNT(*) AS Total
-      FROM dedidos p
+      FROM pedidos p
       JOIN clientes c ON p.IdCliente = c.IdCliente;`
     );
 
