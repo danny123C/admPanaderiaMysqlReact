@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-
+import { URLL_FRONT } from "./config.js";
 // Importar rutas
 import tiposDePanesRoutes from "../routes/TiposPanes.routes.js";
 import produccionDiariaRoutes from "../routes/ProduccionDiaria.routes.js";
@@ -18,7 +18,7 @@ const app = express();
 // Configuración de CORS
 app.use(
   cors({
-    origin: process.env.URLL_FRONT || "http://localhost:5173",
+    origin: process.env.URLL_FRONT,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
