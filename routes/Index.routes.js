@@ -1,7 +1,6 @@
 import { request, Router } from "express"; // Importa el Router de Express
 import pool from "../src/database.js"; // Importa el pool de conexiones a la base de datos
 const router = Router(); // Crea una nueva instancia de Router
-
 router.get("/listaClientesVista", async (req, res) => {
   const limit = parseInt(req.query.limit) || 14;
   const offset = parseInt(req.query.offset) || 0;
@@ -18,7 +17,7 @@ router.get("/listaClientesVista", async (req, res) => {
           c.Nombre AS NombreCliente,
           pd.IdPedido,
           pd.FechaPedido,
-           SUM(dp.Subtotal) AS TotalPedido,
+          SUM(dp.Subtotal) AS TotalPedido,
           pd.Abono,
           pd.Observaciones,
           pd.Pagado,
@@ -31,9 +30,9 @@ router.get("/listaClientesVista", async (req, res) => {
         LEFT JOIN 
           detallepedidos dp ON pd.IdPedido = dp.IdPedido
         LEFT JOIN 
-          tiposDePanes tp ON dp.IdTipoPan = tp.IdTipoPan
+          tiposdepanes tp ON dp.IdTipoPan = tp.IdTipoPan
         GROUP BY 
-          c.Nombre, pd.IdPedido, pd.FechaPedido, pd.TotalPedido, pd.Abono, pd.Observaciones, pd.Pagado
+          c.Nombre, pd.IdPedido, pd.FechaPedido, pd.Abono, pd.Observaciones, pd.Pagado
         ORDER BY 
           pd.FechaPedido ASC
         LIMIT ? OFFSET ?;
@@ -48,7 +47,7 @@ router.get("/listaClientesVista", async (req, res) => {
         FROM pedidos pd
         JOIN clientes c ON pd.IdCliente = c.IdCliente
         LEFT JOIN detallepedidos dp ON pd.IdPedido = dp.IdPedido
-        LEFT JOIN tiposdepanes tp ON dp.IdTipoPan = tp.IdTipoPan;
+        LEFT JOIN tiposDePanes tp ON dp.IdTipoPan = tp.IdTipoPan;
         `
       );
 
@@ -64,8 +63,8 @@ router.get("/listaClientesVista", async (req, res) => {
       connection.release();
     }
   } catch (err) {
-    // console.error("Error al obtener la lista de Clientes:", err);
-    res.status(500).send("Sin respuesta");
+    console.error("Error al obtener la lista de Clientes:", err);
+    res.status(500).send("Error al procesar la solicitud");
   }
 });
 router.get("/listaProduccion", async (req, res) => {
