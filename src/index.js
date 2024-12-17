@@ -34,16 +34,16 @@ app.use((req, res, next) => {
 });
 
 // Rutas API
-app.use("/api/tiposDePanes", tiposDePanesRoutes);
-app.use("/api/produccionDiaria", produccionDiariaRoutes);
-app.use("/api/clientes", clientesRoutes);
-app.use("/api/pedidos", PedidosRoutes);
-app.use("/api/detallePedido", detallePedido);
-app.use("/api/indexClientes", IndexClientes);
-app.use("/api/cuentas", Cuentas);
-app.use("/api/login", Login);
-app.use("/api/barchart", Barchart);
-app.use("/api/materiales", Materiales);
+app.use("/api", tiposDePanesRoutes);
+app.use("/api", produccionDiariaRoutes);
+app.use("/api", clientesRoutes);
+app.use("/api", PedidosRoutes);
+app.use("/api", detallePedido);
+app.use("/api", IndexClientes);
+app.use("/api", Cuentas);
+app.use("/api", Login);
+app.use("/api", Barchart);
+app.use("/api", Materiales);
 
 // Configuración del puerto
 app.set("port", process.env.PORT || 3000);
